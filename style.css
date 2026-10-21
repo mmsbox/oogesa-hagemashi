@@ -1,0 +1,403 @@
+@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;900&display=swap");
+
+:root {
+  --bg: #fdf6e3;
+  --chara: #c8e87a;
+  --text: #1d1d1f;
+  --card: #ffffff;
+  --face: #1d1d1f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Zen Maru Gothic", sans-serif;
+  transition: background 0.6s;
+  overflow: hidden;
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  width: min(90vw, 380px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(2.2rem, 9vw, 3rem);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+/* ---- キャラ ---- */
+.chara {
+  position: relative;
+  width: 120px;
+  height: 110px;
+  background: var(--chara);
+  border-radius: 28px;
+  transform: rotate(-4deg);
+  transition:
+    transform 0.4s,
+    background 0.4s,
+    border-radius 0.4s;
+}
+
+.eye {
+  position: absolute;
+  top: 38px;
+  width: 12px;
+  height: 12px;
+  background: var(--face);
+  border-radius: 50%;
+}
+
+.eye:first-child {
+  left: 34px;
+}
+
+.eye:nth-child(2) {
+  right: 34px;
+}
+
+.mouth {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  width: 28px;
+  height: 14px;
+  border: 4px solid var(--face);
+  border-top: none;
+  border-radius: 0 0 20px 20px;
+  transform: translateX(-50%);
+}
+
+/* ---- メッセージとボタン ---- */
+.message {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 96px;
+  padding: 24px;
+  background: var(--card);
+  border-radius: 28px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.btn {
+  padding: 18px 48px;
+  border: none;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.94);
+}
+
+/* ---- 段階ごとの色 ---- */
+body[data-level="2"] {
+  --bg: #fff1c9;
+}
+
+body[data-level="3"] {
+  --bg: #ffe08a;
+}
+
+body[data-level="4"] {
+  --bg: #ffd6e8;
+  --chara: #f7d55c;
+}
+
+body[data-level="5"] {
+  --bg: #f9b8d6;
+  --chara: #f7d55c;
+}
+
+body[data-level="6"] {
+  --bg: #b9c8ff;
+  --chara: #f49ac9;
+}
+
+body[data-level="7"] {
+  --bg: #9fb3ff;
+  --chara: #f49ac9;
+}
+
+body:is([data-level="8"], [data-level="9"], [data-level="10"]) {
+  --bg: #1e2a8a;
+  --chara: #d4f26a;
+  --text: #d4f26a;
+  --card: #2c3aa8;
+  --face: #1e2a8a;
+}
+
+/* ---- キャラがだんだん興奮する＆形が変わる ---- */
+body:is([data-level="4"], [data-level="5"], [data-level="6"], [data-level="7"])
+  .chara {
+  transform: rotate(6deg) scale(1.15);
+  border-radius: 50%;
+}
+
+body:is([data-level="8"], [data-level="9"], [data-level="10"]) .chara {
+  transform: rotate(-10deg) scale(1.35);
+  border-radius: 0;
+  clip-path: polygon(
+    50% 0%,
+    60.9% 9.4%,
+    75% 6.7%,
+    79.7% 20.3%,
+    93.3% 25%,
+    90.6% 39.1%,
+    100% 50%,
+    90.6% 60.9%,
+    93.3% 75%,
+    79.7% 79.7%,
+    75% 93.3%,
+    60.9% 90.6%,
+    50% 100%,
+    39.1% 90.6%,
+    25% 93.3%,
+    20.3% 79.7%,
+    6.7% 75%,
+    9.4% 60.9%,
+    0% 50%,
+    9.4% 39.1%,
+    6.7% 25%,
+    20.3% 20.3%,
+    25% 6.7%,
+    39.1% 9.4%
+  );
+  animation: buruburu 0.12s infinite;
+}
+
+body[data-level="10"] .chara {
+  animation-duration: 0.06s;
+}
+
+body[data-level="10"] .message {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+@keyframes buruburu {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  25% {
+    translate: -2px 1px;
+  }
+  50% {
+    translate: 2px -1px;
+  }
+  75% {
+    translate: -1px -2px;
+  }
+}
+
+/* ---- 背景の演出 ---- */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+
+/* 4〜7：パステルの丸 */
+body:is(
+    [data-level="4"],
+    [data-level="5"],
+    [data-level="6"],
+    [data-level="7"]
+  )::before {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 15% 20%, #f7d55c 0 60px, transparent 61px),
+    radial-gradient(circle at 85% 30%, #b9e4d4 0 45px, transparent 46px),
+    radial-gradient(circle at 80% 85%, #f49ac9 0 70px, transparent 71px),
+    radial-gradient(circle at 10% 80%, #ffffff 0 35px, transparent 36px);
+}
+
+/* 8〜10：星空 */
+body:is([data-level="8"], [data-level="9"], [data-level="10"])::before {
+  opacity: 1;
+  background-image:
+    radial-gradient(circle, #ffffff 0 1.5px, transparent 2px),
+    radial-gradient(circle, #d4f26a 0 2px, transparent 2.5px);
+  background-size:
+    60px 60px,
+    110px 110px;
+  background-position:
+    0 0,
+    30px 50px;
+  animation: kirakira 1.5s infinite alternate;
+}
+
+@keyframes kirakira {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 10：後光がぐるぐる */
+body[data-level="10"]::after {
+  inset: -50%;
+  opacity: 0.25;
+  background: repeating-conic-gradient(
+    #d4f26a 0deg 10deg,
+    transparent 10deg 20deg
+  );
+  animation: guruguru 20s linear infinite;
+}
+
+@keyframes guruguru {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* ---- SSR演出 ---- */
+@keyframes kinpika {
+  0%,
+  100% {
+    background-color: var(--bg);
+  }
+  50% {
+    background-color: #ffd700;
+  }
+}
+
+body.is-ssr {
+  animation: kinpika 0.4s 4;
+}
+
+body.is-ssr .message {
+  background: linear-gradient(135deg, #fff4b0, #ffd700, #fff4b0);
+  color: #1d1d1f;
+  font-weight: 900;
+}
+
+/* ---- 上のバー（図鑑ボタン・実績バッジ） ---- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.zukan-btn,
+.badge {
+  padding: 6px 14px;
+  background: var(--card);
+  color: var(--text);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.zukan-btn {
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ---- 実績の通知 ---- */
+.toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  z-index: 10;
+  width: max-content;
+  max-width: 90vw;
+  padding: 14px 24px;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 999px;
+  font-weight: 900;
+  translate: -50% -200%;
+  transition: translate 0.4s;
+}
+
+.toast.is-show {
+  translate: -50% 0;
+}
+
+/* ---- 図鑑 ---- */
+.zukan {
+  width: min(90vw, 420px);
+  max-height: 80vh;
+  margin: auto;
+  padding: 24px;
+  border: none;
+  border-radius: 28px;
+  background: #fdf6e3;
+  color: #1d1d1f;
+  font-family: "Zen Maru Gothic", sans-serif;
+}
+
+.zukan::backdrop {
+  background: rgb(0 0 0 / 0.4);
+}
+
+.zukan h2 {
+  margin: 8px 0 12px;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.zukan-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 20px;
+  list-style: none;
+}
+
+.zukan-list li {
+  padding: 10px 14px;
+  background: #fff;
+  border-radius: 14px;
+  font-size: 0.9rem;
+}
+
+.zukan-list li.is-locked {
+  color: #aaa;
+}
+
+.zukan-list li.is-ssr-word {
+  background: linear-gradient(135deg, #fff4b0, #ffd700);
+  font-weight: 900;
+}
+
+.zukan .btn {
+  display: block;
+  margin: 0 auto;
+  background: #1d1d1f;
+  color: #fdf6e3;
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>全力で励ますボタン</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-level="0">
+    <main class="app">
+      <div class="topbar">
+        <button class="zukan-btn" id="zukanBtn">📖 図鑑</button>
+        <p class="badge" id="badge">実績 0/11</p>
+      </div>
+
+      <h1 class="title">全力で<br />励ますよ</h1>
+
+      <div class="chara">
+        <span class="eye"></span>
+        <span class="eye"></span>
+        <span class="mouth"></span>
+      </div>
+
+      <p class="message" id="message">ボタンを押してね</p>
+
+      <button class="btn" id="praiseBtn">はげまして</button>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <dialog class="zukan" id="zukan">
+      <h2>褒め図鑑 <span id="zukanCount"></span></h2>
+      <ul class="zukan-list" id="zukanList"></ul>
+      <h2>実績</h2>
+      <ul class="zukan-list" id="achievementList"></ul>
+      <button class="btn" id="zukanClose">とじる</button>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
